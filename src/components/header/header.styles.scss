@@ -1,0 +1,27 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 1rem 3rem;
+  opacity: 0.9;
+  border-bottom: #17a2b8;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo,
+  .nav-link {
+    color: white;
+  }
+
+  .logo {
+    font-size: 1.7rem;
+    font-weight: bold;
+  }
+
+  .nav-link {
+    padding: 0 0.7rem;
+  }
+}
