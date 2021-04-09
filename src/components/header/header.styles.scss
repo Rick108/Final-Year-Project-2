@@ -11,9 +11,14 @@
   justify-content: space-between;
   align-items: center;
 
+  .nav-links {
+    display: flex;
+  }
+
   .logo,
   .nav-link {
     color: white;
+    cursor: pointer;
   }
 
   .logo {
