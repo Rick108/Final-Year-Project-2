@@ -15,12 +15,12 @@ const App = ({ checkUserSession }) => {
   return (
     <>
       <Header />
-      <Route exact path='/' component={HomePage} />
-      <section className='container'>
-        <Switch>
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+        <section className='container'>
           <Route path='/sign-in' component={SignInAndSignOut} />
-        </Switch>
-      </section>
+        </section>
+      </Switch>
     </>
   );
 };
