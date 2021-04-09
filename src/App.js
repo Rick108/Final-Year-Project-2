@@ -4,6 +4,8 @@ import { Redirect, Route, Switch } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 import './App.scss';
 import Header from './components/header/header.component';
+import PrivateRoute from './components/routing/PrivateRoute';
+import DashboardPage from './pages/dashboard/dashboard.component';
 import HomePage from './pages/homepage/homepage.component';
 import SignInAndSignOut from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
 import { checkUserSession } from './redux/user/user.actions';
@@ -18,13 +20,16 @@ const App = ({ checkUserSession, currentUser }) => {
     <>
       <Header />
       <Switch>
+        <Route exact path='/' component={HomePage} />
         <>
-          <Route exact path='/' component={HomePage} />
           <section className='container'>
             <Route
               path='/sign-in'
-              render={() => (currentUser ? <Redirect to='/' /> : <SignInAndSignOut />)}
+              render={() =>
+                currentUser ? <Redirect to='/dashboard' /> : <SignInAndSignOut />
+              }
             />
+            <PrivateRoute exact path='/dashboard' component={DashboardPage} />
           </section>
         </>
       </Switch>
