@@ -1,9 +1,9 @@
 import ProfileActionTypes from './profile.types';
 
-// Create profile actions
+// Create/Edit profile actions
 
-export const createProfileStart = profileData => ({
-  type: ProfileActionTypes.CREATE_PROFILE_START,
+export const createOrEditProfileStart = profileData => ({
+  type: ProfileActionTypes.CREATE_OR_EDIT_PROFILE_START,
   payload: profileData
 });
 
@@ -14,6 +14,16 @@ export const createProfileSuccess = profile => ({
 
 export const createProfileFailure = error => ({
   type: ProfileActionTypes.CREATE_PROFILE_FAILURE,
+  payload: error
+});
+
+export const editProfileSuccess = profile => ({
+  type: ProfileActionTypes.EDIT_PROFILE_SUCCESS,
+  payload: profile
+});
+
+export const editProfileFailure = error => ({
+  type: ProfileActionTypes.EDIT_PROFILE_FAILURE,
   payload: error
 });
 

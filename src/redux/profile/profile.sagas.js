@@ -3,21 +3,38 @@ import { auth, firestore } from '../../firebase/firebase.utils';
 import {
   createProfileFailure,
   createProfileSuccess,
+  editProfileFailure,
+  editProfileSuccess,
   fetchCurrentProfileFailure,
   fetchCurrentProfileSuccess
 } from './profile.actions';
 import ProfileActionTypes from './profile.types';
 
-// Create profile sagas
+// Create/Edit profile sagas
 
-export function* createProfile({ payload }) {
+export function* createOrEditProfile({ payload }) {
   const profileRef = firestore.doc(`users/${auth.currentUser.uid}`).collection('profile');
   const profileSnapshot = yield profileRef.get();
   if (!profileSnapshot.empty) {
-    return;
-  } else {
+    // edit profile
     try {
-      yield profileRef.add({ ...payload });
+      const profileSnapshotToEdit = yield profileRef.limit(1).get();
+      yield profileSnapshotToEdit.docs[0].ref.update({
+        ...payload,
+        skills: payload.skills.split(',').map(skill => skill.trim())
+      });
+      yield put(editProfileSuccess(payload));
+    } catch (error) {
+      console.error('Error while edit profile:', error);
+      yield put(editProfileFailure(error));
+    }
+  } else {
+    // create profile
+    try {
+      yield profileRef.add({
+        ...payload,
+        skills: payload.skills.split(',').map(skill => skill.trim())
+      });
       yield put(createProfileSuccess(payload));
     } catch (error) {
       yield put(createProfileFailure(error));
@@ -25,8 +42,8 @@ export function* createProfile({ payload }) {
   }
 }
 
-export function* onCreateProfileStart() {
-  yield takeLatest(ProfileActionTypes.CREATE_PROFILE_START, createProfile);
+export function* onCreateOrEditProfileStart() {
+  yield takeLatest(ProfileActionTypes.CREATE_OR_EDIT_PROFILE_START, createOrEditProfile);
 }
 
 // Fetch current profile sagas
@@ -59,5 +76,5 @@ export function* onFetchCurrentProfileStart() {
 
 // Root-Profile saga
 export function* profileSagas() {
-  yield all([call(onCreateProfileStart), call(onFetchCurrentProfileStart)]);
+  yield all([call(onCreateOrEditProfileStart), call(onFetchCurrentProfileStart)]);
 }

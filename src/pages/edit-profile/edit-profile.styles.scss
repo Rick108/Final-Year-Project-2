@@ -1,0 +1,30 @@
+$sub-color: grey;
+
+.edit-profile {
+  .form-group {
+    margin: 45px 0;
+
+    select {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 1.2rem;
+      color: $sub-color;
+      border: none;
+      border-bottom: 1px solid $sub-color;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .toggle-social-inputs-button-container {
+    margin: 2rem 0;
+  }
+
+  .optional-span {
+    padding-left: 0.5rem;
+    color: #555;
+  }
+}

@@ -4,11 +4,11 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
-import { createProfileStart } from '../../redux/profile/profile.actions';
+import { createOrEditProfileStart } from '../../redux/profile/profile.actions';
 import { selectProfile } from '../../redux/profile/profile.selectors';
 import './create-profile.styles.scss';
 
-const CreateProfile = ({ createProfileStart, profile, history }) => {
+const CreateProfile = ({ createOrEditProfileStart, profile, history }) => {
   const [formData, setFormData] = useState({
     status: '',
     company: '',
@@ -49,7 +49,7 @@ const CreateProfile = ({ createProfileStart, profile, history }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    createProfileStart(formData);
+    createOrEditProfileStart(formData);
   };
 
   if (profile) {
@@ -58,7 +58,7 @@ const CreateProfile = ({ createProfileStart, profile, history }) => {
 
   return (
     <div className='create-profile'>
-      <h1 className='primary-text large'>Create Your Profile</h1>
+      <h1 className='text-primary large'>Create Your Profile</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Let's get some information to make your profile
         stand out
@@ -207,7 +207,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createProfileStart: formData => dispatch(createProfileStart(formData))
+  createOrEditProfileStart: formData => dispatch(createOrEditProfileStart(formData))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateProfile));
