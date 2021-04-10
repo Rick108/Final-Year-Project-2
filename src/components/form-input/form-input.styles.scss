@@ -1,5 +1,5 @@
 $main-color: black;
-$sub-color: grey;
+$sub-color: #5e5c5c;
 
 @mixin shrinkLabel {
   top: -14px;
@@ -7,7 +7,7 @@ $sub-color: grey;
   color: $main-color;
 }
 
-.group {
+.form-group {
   margin: 45px 0;
   position: relative;
 
@@ -43,5 +43,36 @@ $sub-color: grey;
     &.shrink {
       @include shrinkLabel();
     }
+
+    &.social-media-label {
+      display: flex;
+      align-items: center;
+
+      .fab {
+        padding-right: 1rem;
+
+        &.fa-twitter {
+          color: #38a1f3;
+        }
+        &.fa-linkedin {
+          color: #0077b5;
+        }
+        &.fa-youtube {
+          color: #c4302b;
+        }
+        &.fa-facebook {
+          color: #3b5998;
+        }
+        &.fa-instagram {
+          color: #3f729b;
+        }
+      }
+    }
+  }
+
+  small.form-text {
+    display: block;
+    margin-top: 0.3rem;
+    color: #888;
   }
 }

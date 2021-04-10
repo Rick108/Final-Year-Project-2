@@ -1,13 +1,31 @@
 import './form-input.styles.scss';
 
-const FormInput = ({ label, handleChange, ...otherInputProps }) => {
+const FormInput = ({
+  label,
+  handleChange,
+  formText,
+  textarea,
+  socialInput,
+  socialMedia,
+  ...otherInputProps
+}) => {
   return (
-    <div className='group'>
-      <input className='form-input' onChange={handleChange} {...otherInputProps} />
-      <label
-        className={`${otherInputProps.value.length ? 'shrink' : ''} form-input-label`}>
-        {label}
-      </label>
+    <div className='form-group'>
+      {textarea ? (
+        <textarea className='form-input' onChange={handleChange} {...otherInputProps} />
+      ) : (
+        <input className='form-input' onChange={handleChange} {...otherInputProps} />
+      )}
+      {label && (
+        <label
+          className={`${otherInputProps.value.length ? 'shrink' : ''}  
+          ${socialMedia ? 'social-media-label' : ''}
+          form-input-label`}>
+          <i className={`fab fa-${socialMedia} fa-2x`}></i>
+          {label}
+        </label>
+      )}
+      {formText && <small className='form-text'>{formText}</small>}
     </div>
   );
 };

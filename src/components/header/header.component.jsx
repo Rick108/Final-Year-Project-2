@@ -6,6 +6,25 @@ import { selectCurrentUser } from '../../redux/user/user.selectors';
 import './header.styles.scss';
 
 const Header = ({ currentUser, signOutStart }) => {
+  const authLinks = (
+    <>
+      <Link className='nav-link' to='/dashboard'>
+        <i className='fas fa-user'></i> Dashboard
+      </Link>
+      <div className='nav-link' onClick={signOutStart}>
+        <i className='fas fa-sign-out-alt'></i> Sign Out
+      </div>
+    </>
+  );
+
+  const guestLinks = (
+    <>
+      <Link className='nav-link' to='/sign-in'>
+        Sign In
+      </Link>
+    </>
+  );
+
   return (
     <div className='header bg-dark'>
       <div className='logo-container'>
@@ -17,15 +36,7 @@ const Header = ({ currentUser, signOutStart }) => {
         <Link className='nav-link' to='/developers'>
           Developers
         </Link>
-        {currentUser ? (
-          <div className='nav-link' onClick={signOutStart}>
-            Sign Out
-          </div>
-        ) : (
-          <Link className='nav-link' to='/sign-in'>
-            Sign In
-          </Link>
-        )}
+        {currentUser ? authLinks : guestLinks}
       </div>
     </div>
   );
