@@ -42,3 +42,9 @@ export const fetchCurrentProfileFailure = error => ({
   type: ProfileActionTypes.FETCH_CURRENT_PROFILE_FAILURE,
   payload: error
 });
+
+// Clear profile from redux state
+
+export const clearProfile = () => ({
+  type: ProfileActionTypes.CLEAR_PROFILE
+});

@@ -3,7 +3,7 @@ import ProfileActionTypes from './profile.types';
 const INITIAL_STATE = {
   profile: null,
   profiles: [],
-  isFetching: true,
+  isFetching: false,
   error: null
 };
 
@@ -25,9 +25,18 @@ const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
         error: null
       };
 
+    case ProfileActionTypes.CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
+        profiles: [],
+        isFetching: false,
+        error: null
+      };
+
     case ProfileActionTypes.CREATE_PROFILE_FAILURE:
-    case ProfileActionTypes.FETCH_CURRENT_PROFILE_FAILURE:
     case ProfileActionTypes.EDIT_PROFILE_FAILURE:
+    case ProfileActionTypes.FETCH_CURRENT_PROFILE_FAILURE:
       return {
         ...state,
         profile: null,
