@@ -4,11 +4,11 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
-import { createOrEditProfileStart } from '../../redux/profile/profile.actions';
+import { createProfileStart } from '../../redux/profile/profile.actions';
 import { selectProfile } from '../../redux/profile/profile.selectors';
 import './create-profile.styles.scss';
 
-const CreateProfile = ({ createOrEditProfileStart, profile, history }) => {
+const CreateProfile = ({ createProfileStart, profile, history }) => {
   const [formData, setFormData] = useState({
     status: '',
     company: '',
@@ -49,7 +49,7 @@ const CreateProfile = ({ createOrEditProfileStart, profile, history }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    createOrEditProfileStart(formData);
+    createProfileStart(formData);
   };
 
   if (profile) {
@@ -207,7 +207,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createOrEditProfileStart: formData => dispatch(createOrEditProfileStart(formData))
+  createProfileStart: formData => dispatch(createProfileStart(formData))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateProfile));

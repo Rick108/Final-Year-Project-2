@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
 import {
-  createOrEditProfileStart,
+  editProfileStart,
   fetchCurrentProfileStart
 } from '../../redux/profile/profile.actions';
 import {
@@ -18,7 +18,7 @@ const EditProfile = ({
   fetchCurrentProfileStart,
   isProfileFetching,
   profile,
-  createOrEditProfileStart,
+  editProfileStart,
   history
 }) => {
   const [formData, setFormData] = useState({
@@ -82,7 +82,7 @@ const EditProfile = ({
   const handleSubmit = e => {
     e.preventDefault();
     // TODO: handle edit profile
-    createOrEditProfileStart(formData);
+    editProfileStart(formData);
   };
 
   return (
@@ -238,7 +238,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   fetchCurrentProfileStart: () => dispatch(fetchCurrentProfileStart()),
-  createOrEditProfileStart: formData => dispatch(createOrEditProfileStart(formData))
+  editProfileStart: formData => dispatch(editProfileStart(formData))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditProfile));

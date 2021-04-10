@@ -24,6 +24,7 @@ const DashboardPage = ({
     fetchCurrentProfileStart();
   }, [fetchCurrentProfileStart]);
 
+  // TODO: remove ! from isProfileFetching
   return isProfileFetching ? (
     <Spinner />
   ) : (
