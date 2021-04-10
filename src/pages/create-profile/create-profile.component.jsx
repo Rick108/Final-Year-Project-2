@@ -1,9 +1,14 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import { Redirect, withRouter } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
+import { createProfileStart } from '../../redux/profile/profile.actions';
+import { selectProfile } from '../../redux/profile/profile.selectors';
 import './create-profile.styles.scss';
 
-const CreateProfile = () => {
+const CreateProfile = ({ createProfileStart, profile, history }) => {
   const [formData, setFormData] = useState({
     status: '',
     company: '',
@@ -44,8 +49,12 @@ const CreateProfile = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // TODO: handle profile submit
+    createProfileStart(formData);
   };
+
+  if (profile) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <div className='create-profile'>
@@ -57,7 +66,7 @@ const CreateProfile = () => {
       <span className='required-field-warning'>* required field</span>
       <form onSubmit={handleSubmit} autoComplete='off'>
         <div className='form-group'>
-          <select name='status' value={status} onChange={handleChange}>
+          <select name='status' value={status} onChange={handleChange} required>
             <option value='0'>* Select Professional Status</option>
             <option value='Developer'>Developer</option>
             <option value='Junior Developer'>Junior Developer</option>
@@ -103,6 +112,7 @@ const CreateProfile = () => {
           value={skills}
           handleChange={handleChange}
           formText='Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)'
+          required
         />
         <FormInput
           label='GitHub Username'
@@ -122,8 +132,11 @@ const CreateProfile = () => {
           textarea
         />
 
-        <div>
-          <CustomButton onClick={() => toggleSocialInputs(!displaySocialInputs)} light>
+        <div className='toggle-social-inputs-button-container'>
+          <CustomButton
+            type='button'
+            onClick={() => toggleSocialInputs(!displaySocialInputs)}
+            light>
             Add Social Network Links
           </CustomButton>
           <span className='optional-span'>(Optional)</span>
@@ -178,9 +191,23 @@ const CreateProfile = () => {
             />
           </>
         )}
+        <div className='buttons'>
+          <CustomButton type='submit'>Submit</CustomButton>
+          <CustomButton type='button' onClick={() => history.goBack()} light>
+            Go Back
+          </CustomButton>
+        </div>
       </form>
     </div>
   );
 };
 
-export default CreateProfile;
+const mapStateToProps = createStructuredSelector({
+  profile: selectProfile
+});
+
+const mapDispatchToProps = dispatch => ({
+  createProfileStart: formData => dispatch(createProfileStart(formData))
+});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateProfile));

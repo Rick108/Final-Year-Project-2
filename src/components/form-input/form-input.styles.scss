@@ -38,6 +38,7 @@ $sub-color: #5e5c5c;
     top: 10px;
     left: 5px;
     color: $sub-color;
+    pointer-events: none;
     transition: 300ms all ease;
 
     &.shrink {

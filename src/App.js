@@ -7,6 +7,7 @@ import Header from './components/header/header.component';
 import PrivateRoute from './components/routing/PrivateRoute';
 import CreateProfile from './pages/create-profile/create-profile.component';
 import DashboardPage from './pages/dashboard/dashboard.component';
+import EditProfile from './pages/edit-profile/edit-profile.component';
 import HomePage from './pages/homepage/homepage.component';
 import SignInAndSignOut from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
 import { checkUserSession } from './redux/user/user.actions';
@@ -32,6 +33,7 @@ const App = ({ checkUserSession, currentUser }) => {
             />
             <PrivateRoute exact path='/dashboard' component={DashboardPage} />
             <PrivateRoute exact path='/create-profile' component={CreateProfile} />
+            <PrivateRoute exact path='/edit-profile' component={EditProfile} />
           </section>
         </>
       </Switch>
