@@ -124,7 +124,6 @@ const CreateProfile = ({ createProfileStart, profile, history }) => {
         />
         <FormInput
           label='A short bio of yourself'
-          type='text'
           name='bio'
           value={bio}
           handleChange={handleChange}

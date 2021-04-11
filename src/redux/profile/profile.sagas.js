@@ -14,9 +14,8 @@ import ProfileActionTypes from './profile.types';
 
 export function* createProfile({ payload }) {
   try {
-    const profilesRef = firestore.collection('profiles');
-    yield profilesRef.add({
-      userId: auth.currentUser.uid,
+    const profileRef = firestore.collection('profiles').doc(auth.currentUser.uid);
+    yield profileRef.set({
       ...payload,
       skills: payload.skills.split(',').map(skill => skill.trim())
     });
@@ -34,15 +33,17 @@ export function* onCreateProfileStart() {
 
 export function* editProfile({ payload }) {
   try {
-    const profilesCollection = yield firestore.collection('profiles').get();
-    const currentUserProfileDocument = profilesCollection.docs.find(
-      doc => doc.data().userId === auth.currentUser.uid
-    );
-    yield currentUserProfileDocument.ref.update({
-      ...payload,
-      skills: payload.skills.split(',').map(skill => skill.trim())
-    });
-    yield put(editProfileSuccess(payload));
+    const profileRef = firestore.collection('profiles').doc(auth.currentUser.uid);
+    const profileSnapshot = yield profileRef.get();
+    if (!profileSnapshot.exists) {
+      yield put(editProfileFailure('No profile found'));
+    } else {
+      yield profileRef.update({
+        ...payload,
+        skills: payload.skills.split(',').map(skill => skill.trim())
+      });
+      yield put(editProfileSuccess(payload));
+    }
   } catch (error) {
     yield put(editProfileFailure(error));
   }
@@ -56,11 +57,13 @@ export function* onEditProfileStart() {
 
 export function* onFetchCurrentProfile() {
   try {
-    const profileCollections = yield firestore.collection('profiles').get();
-    const currentUserProfile = profileCollections.docs.find(
-      doc => doc.data().userId === auth.currentUser.uid
-    );
-    yield put(fetchCurrentProfileSuccess(currentUserProfile.data()));
+    const profileRef = firestore.collection('profiles').doc(auth.currentUser.uid);
+    const profileSnapshot = yield profileRef.get();
+    if (profileSnapshot.exists) {
+      yield put(fetchCurrentProfileSuccess(profileSnapshot.data()));
+    } else {
+      yield put(fetchCurrentProfileFailure('No profile found'));
+    }
   } catch (error) {
     yield put(fetchCurrentProfileFailure(error));
   }

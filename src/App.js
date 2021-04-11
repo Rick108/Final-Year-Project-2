@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import './App.scss';
 import Header from './components/header/header.component';
 import PrivateRoute from './components/routing/PrivateRoute';
+import AddExperience from './pages/add-experience/add-experience.component';
 import CreateProfile from './pages/create-profile/create-profile.component';
 import DashboardPage from './pages/dashboard/dashboard.component';
 import EditProfile from './pages/edit-profile/edit-profile.component';
@@ -34,6 +35,7 @@ const App = ({ checkUserSession, currentUser }) => {
             <PrivateRoute exact path='/dashboard' component={DashboardPage} />
             <PrivateRoute exact path='/create-profile' component={CreateProfile} />
             <PrivateRoute exact path='/edit-profile' component={EditProfile} />
+            <PrivateRoute exact path='/add-experience' component={AddExperience} />
           </section>
         </>
       </Switch>
