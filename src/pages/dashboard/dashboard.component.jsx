@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import DashboardActions from '../../components/dashboard-actions/dashboard-actions.component';
 import Spinner from '../../components/spinner/spinner.component';
+import { fetchExperiencesStart } from '../../redux/experience/experience.actions';
 import { fetchCurrentProfileStart } from '../../redux/profile/profile.actions';
 import {
   selectIsProfileFetching,
@@ -18,11 +19,15 @@ const DashboardPage = ({
   fetchCurrentProfileStart,
   isProfileFetching,
   profile,
+  fetchExperiencesStart,
   history
 }) => {
   useEffect(() => {
     fetchCurrentProfileStart();
-  }, [fetchCurrentProfileStart]);
+    // TODO: Move below 'fetchExperiencesStart()' method to a new component <Experience />,
+    //       where all experiences of the current user are listed.
+    fetchExperiencesStart();
+  }, [fetchCurrentProfileStart, fetchExperiencesStart]);
 
   return isProfileFetching ? (
     <Spinner />
@@ -54,7 +59,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCurrentProfileStart: () => dispatch(fetchCurrentProfileStart())
+  fetchCurrentProfileStart: () => dispatch(fetchCurrentProfileStart()),
+  fetchExperiencesStart: () => dispatch(fetchExperiencesStart())
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DashboardPage));

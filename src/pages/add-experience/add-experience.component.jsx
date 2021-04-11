@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
+import { addExperienceStart } from '../../redux/experience/experience.actions';
 import './add-experience.styles.scss';
 
-const AddExperience = ({ history }) => {
+const AddExperience = ({ addExperienceStart, history }) => {
   const [formData, setFormData] = useState({
     title: '',
     company: '',
@@ -28,7 +29,7 @@ const AddExperience = ({ history }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // TODO: handle add an experience
+    addExperienceStart(formData);
   };
 
   return (
@@ -109,4 +110,8 @@ const AddExperience = ({ history }) => {
   );
 };
 
-export default withRouter(connect()(AddExperience));
+const mapDispatchToProps = dispatch => ({
+  addExperienceStart: formData => dispatch(addExperienceStart(formData))
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(AddExperience));
