@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import DashboardActions from '../../components/dashboard-actions/dashboard-actions.component';
 import Experience from '../../components/experience/experience.component';
+import Education from '../../components/education/education.component';
 import Spinner from '../../components/spinner/spinner.component';
 import { fetchCurrentProfileStart } from '../../redux/profile/profile.actions';
 import {
@@ -38,6 +39,7 @@ const DashboardPage = ({
         <>
           <DashboardActions />
           <Experience />
+          <Education />
         </>
       ) : (
         <>

@@ -16,6 +16,7 @@ import {
   signUpSuccess
 } from './user.actions';
 import UserActionTypes from './user.types';
+import { clearEducations } from '../education/education.actions';
 
 export function* getSnapshotFromUserAuth(userAuth, additionalData) {
   try {
@@ -84,6 +85,7 @@ export function* signOut() {
     yield put(signOutSuccess());
     yield put(clearProfile());
     yield put(clearExperiences());
+    yield put(clearEducations());
   } catch (error) {
     yield put(signOutFailure(error));
   }

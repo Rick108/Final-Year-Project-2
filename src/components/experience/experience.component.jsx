@@ -44,8 +44,8 @@ const Experience = ({
                 <td>{exp.company}</td>
                 <td>{exp.title}</td>
                 <td>
-                  <DayJS format='DD.MM.YYYY'>{exp.from}</DayJS> -
-                  {exp.to ? <DayJS format='DD.MM.YYYY'>{exp.to}</DayJS> : ' Now'}
+                  <DayJS format='DD.MM.YYYY'>{exp.from}</DayJS> -{' '}
+                  {exp.to ? <DayJS format='DD.MM.YYYY'>{exp.to}</DayJS> : 'Now'}
                 </td>
                 <td>
                   <CustomButton onClick={() => deleteExperienceStart(exp.id)} danger>
