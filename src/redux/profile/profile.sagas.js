@@ -63,7 +63,13 @@ export function* fetchProfile({ payload }) {
     const profileRef = firestore.collection('profiles').doc(payload);
     const profileSnapshot = yield profileRef.get();
     if (profileSnapshot.exists) {
-      yield put(fetchProfileSuccess(profileSnapshot.data()));
+      yield put(
+        fetchProfileSuccess({
+          // since, in our firebase, profile document id = user id
+          userId: profileSnapshot.id,
+          ...profileSnapshot.data()
+        })
+      );
     } else {
       yield put(fetchProfileFailure('No profile found'));
     }

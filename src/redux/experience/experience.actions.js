@@ -2,8 +2,9 @@ import ExperienceActionTypes from './experience.types';
 
 // Fetch experiences actions
 
-export const fetchExperiencesStart = () => ({
-  type: ExperienceActionTypes.FETCH_EXPERIENCES_START
+export const fetchExperiencesStart = profileUserId => ({
+  type: ExperienceActionTypes.FETCH_EXPERIENCES_START,
+  payload: profileUserId
 });
 
 export const fetchExperiencesSuccess = experiences => ({

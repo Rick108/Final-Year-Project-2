@@ -12,11 +12,9 @@ import { auth, firestore } from '../../firebase/firebase.utils';
 
 // Fetch educations sagas
 
-export function* fetchEducations() {
+export function* fetchEducations({ payload }) {
   try {
-    const educationsRef = firestore
-      .doc(`profiles/${auth.currentUser.uid}`)
-      .collection('educations');
+    const educationsRef = firestore.doc(`profiles/${payload}`).collection('educations');
     const educationsSnapshot = yield educationsRef.get();
 
     const educationsState = [];

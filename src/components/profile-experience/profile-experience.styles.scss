@@ -1,0 +1,13 @@
+.profile-experience {
+  border: 1px solid #ccc;
+  padding: 1rem;
+
+  .company {
+    font-size: 1.2rem;
+  }
+
+  .profile-experience_item:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+}

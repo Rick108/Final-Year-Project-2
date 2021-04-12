@@ -2,8 +2,9 @@ import EducationActionTypes from './education.types';
 
 // Fetch educations actions
 
-export const fetchEducationsStart = () => ({
-  type: EducationActionTypes.FETCH_EDUCATIONS_START
+export const fetchEducationsStart = profileUserId => ({
+  type: EducationActionTypes.FETCH_EDUCATIONS_START,
+  payload: profileUserId
 });
 
 export const fetchEducationsSuccess = educations => ({

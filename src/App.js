@@ -15,6 +15,7 @@ import AddEducation from './pages/add-education/add-education.component';
 import ProfilesPage from './pages/profiles/profiles.component';
 import { checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import ProfilePage from './pages/profile/profile.component';
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -40,6 +41,7 @@ const App = ({ checkUserSession, currentUser }) => {
             <PrivateRoute exact path='/add-experience' component={AddExperience} />
             <PrivateRoute exact path='/add-education' component={AddEducation} />
             <Route exact path='/profiles' component={ProfilesPage} />
+            <Route exact path='/profile/:id' component={ProfilePage} />
           </section>
         </>
       </Switch>

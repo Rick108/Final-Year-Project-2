@@ -1,0 +1,13 @@
+.profile-education {
+  border: 1px solid #ccc;
+  padding: 1rem;
+
+  .school {
+    font-size: 1.2rem;
+  }
+
+  .profile-education_item:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+  }
+}

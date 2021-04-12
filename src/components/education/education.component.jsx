@@ -10,18 +10,20 @@ import {
   selectAreEducationsFetching,
   selectEducations
 } from '../../redux/education/education.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import CustomButton from '../custom-button/custom-button.component';
 import Spinner from '../spinner/spinner.component';
 
 const Education = ({
+  currentUser,
   fetchEducationsStart,
   educations,
   loading,
   deleteEducationStart
 }) => {
   useEffect(() => {
-    fetchEducationsStart();
-  }, [fetchEducationsStart]);
+    fetchEducationsStart(currentUser.id);
+  }, [fetchEducationsStart, currentUser.id]);
 
   return (
     <div className='experience'>
@@ -62,12 +64,13 @@ const Education = ({
 };
 
 const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
   educations: selectEducations,
   loading: selectAreEducationsFetching
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchEducationsStart: () => dispatch(fetchEducationsStart()),
+  fetchEducationsStart: currentUserId => dispatch(fetchEducationsStart(currentUserId)),
   deleteEducationStart: eduId => dispatch(deleteEducationStart(eduId))
 });
 

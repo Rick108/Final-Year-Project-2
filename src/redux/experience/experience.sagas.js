@@ -12,11 +12,9 @@ import ExperienceActionTypes from './experience.types';
 
 // Fetch experiences sagas
 
-export function* fetchExperiences() {
+export function* fetchExperiences({ payload }) {
   try {
-    const experiencesRef = firestore
-      .doc(`profiles/${auth.currentUser.uid}`)
-      .collection('experiences');
+    const experiencesRef = firestore.doc(`profiles/${payload}`).collection('experiences');
     const experiencesSnapshot = yield experiencesRef.get();
 
     const experiencesState = [];

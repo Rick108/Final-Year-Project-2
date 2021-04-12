@@ -58,11 +58,12 @@ const AddEducation = ({ addEducationStart, history }) => {
           required
         />
         <FormInput
-          label='Field of Study'
+          label='* Field of Study'
           type='text'
           name='fieldOfStudy'
           value={fieldOfStudy}
           handleChange={handleChange}
+          required
         />
         <FormInput
           type='date'
@@ -83,7 +84,7 @@ const AddEducation = ({ addEducationStart, history }) => {
             }}
             style={{ marginRight: 10 }}
           />
-          Current Job
+          Current
         </p>
         <FormInput
           type='date'

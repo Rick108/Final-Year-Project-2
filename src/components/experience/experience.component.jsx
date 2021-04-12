@@ -10,18 +10,20 @@ import {
   selectAreExperiencesFetching,
   selectExperiences
 } from '../../redux/experience/experience.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import CustomButton from '../custom-button/custom-button.component';
 import Spinner from '../spinner/spinner.component';
 
 const Experience = ({
+  currentUser,
   fetchExperiencesStart,
   experiences,
   isFetching,
   deleteExperienceStart
 }) => {
   useEffect(() => {
-    fetchExperiencesStart();
-  }, [fetchExperiencesStart]);
+    fetchExperiencesStart(currentUser.id);
+  }, [fetchExperiencesStart, currentUser.id]);
 
   return (
     <div className='experience'>
@@ -62,12 +64,13 @@ const Experience = ({
 };
 
 const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
   experiences: selectExperiences,
   isFetching: selectAreExperiencesFetching
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchExperiencesStart: () => dispatch(fetchExperiencesStart()),
+  fetchExperiencesStart: currentUserId => dispatch(fetchExperiencesStart(currentUserId)),
   deleteExperienceStart: expId => dispatch(deleteExperienceStart(expId))
 });
 

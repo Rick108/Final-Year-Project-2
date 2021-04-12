@@ -17,9 +17,9 @@ const ProfileItem = ({ profile: { id, owner, status, company, location, skills }
             <span>{location}</span>
           </p>
         )}
-        <CustomButton>
-          <Link to={`profile/${id}`}>View Profile</Link>
-        </CustomButton>
+        <Link to={`profile/${id}`}>
+          <CustomButton>View Profile</CustomButton>
+        </Link>
       </div>
       <div className='profile-item_skills'>
         {skills.slice(0, 5).map((skill, index) => (

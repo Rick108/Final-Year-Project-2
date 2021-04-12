@@ -1,0 +1,10 @@
+.profile-page {
+  margin: 2rem 0;
+
+  .profile-grid {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    column-gap: 2vw;
+  }
+}
