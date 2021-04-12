@@ -6,6 +6,7 @@ import {
   googleProvider
 } from '../../firebase/firebase.utils';
 import { clearProfile } from '../profile/profile.actions';
+import { clearExperiences } from '../experience/experience.actions';
 import {
   signInFailure,
   signInSuccess,
@@ -82,6 +83,7 @@ export function* signOut() {
     yield auth.signOut();
     yield put(signOutSuccess());
     yield put(clearProfile());
+    yield put(clearExperiences());
   } catch (error) {
     yield put(signOutFailure(error));
   }

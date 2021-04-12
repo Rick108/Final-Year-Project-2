@@ -1,5 +1,6 @@
 $primary-color: #17a2b8;
 $dark-color: #343a40;
+$light-color: #f4f4f4;
 
 * {
   box-sizing: border-box;
@@ -46,6 +47,16 @@ body {
       button {
         margin-right: 0.8rem;
       }
+    }
+
+    table th,
+    table td {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    table th {
+      background-color: $light-color;
     }
   }
 }

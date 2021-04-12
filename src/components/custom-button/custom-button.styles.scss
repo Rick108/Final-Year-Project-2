@@ -1,3 +1,8 @@
+$google-color: #4285f4;
+$google-hover-color: #357ae8;
+$danger-color: #dc3545;
+$danger-hover-color: #c52333;
+
 .custom-button {
   min-width: 165px;
   width: auto;
@@ -21,11 +26,11 @@
   }
 
   &.google-sign-in {
-    background-color: #4285f4;
+    background-color: $google-color;
     color: white;
 
     &:hover {
-      background-color: #357ae8;
+      background-color: $google-hover-color;
       border: none;
     }
   }
@@ -37,6 +42,18 @@
 
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  &.danger {
+    min-width: auto;
+    height: auto;
+    background-color: $danger-color;
+    border: none;
+
+    &:hover {
+      background-color: $danger-hover-color;
+      color: white;
     }
   }
 }

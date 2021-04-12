@@ -3,6 +3,8 @@ import { auth, firestore } from '../../firebase/firebase.utils';
 import {
   addExperienceFailure,
   addExperienceSuccess,
+  deleteExperienceFailure,
+  deleteExperienceSuccess,
   fetchExperiencesFailure,
   fetchExperiencesSuccess
 } from './experience.actions';
@@ -55,7 +57,40 @@ export function* onAddExperienceStart() {
   yield takeLatest(ExperienceActionTypes.ADD_EXPERIENCE_START, addExperience);
 }
 
+// Delete an experience sagas
+
+export function* deleteExperience({ payload }) {
+  if (
+    window.confirm(
+      'Are you sure you want to delete this experience? This action cannot be undone.'
+    )
+  ) {
+    try {
+      const profileRef = firestore.doc(`profiles/${auth.currentUser.uid}`);
+      if (profileRef.id !== auth.currentUser.uid) {
+        yield put(deleteExperienceFailure('Not authorized to delete this experience'));
+        return;
+      }
+      const experienceRef = profileRef.collection('experiences').doc(payload);
+      yield experienceRef.delete();
+      yield put(deleteExperienceSuccess(payload));
+    } catch (error) {
+      yield put(deleteExperienceFailure(error.message));
+    }
+  } else {
+    yield put(deleteExperienceFailure('Experience deletion cancelled'));
+  }
+}
+
+export function* onDeleteExperienceStart() {
+  yield takeLatest(ExperienceActionTypes.DELETE_EXPERIENCE_START, deleteExperience);
+}
+
 // Root-Experience saga
 export function* experienceSagas() {
-  yield all([call(onFetchExperiencesStart), call(onAddExperienceStart)]);
+  yield all([
+    call(onFetchExperiencesStart),
+    call(onAddExperienceStart),
+    call(onDeleteExperienceStart)
+  ]);
 }
