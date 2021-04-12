@@ -44,6 +44,7 @@ const SignIn = ({ googleSignInStart, emailSignInStart }) => {
           name='password'
           value={password}
           handleChange={handleChange}
+          autoComplete='off'
           required
         />
         <div className='buttons'>

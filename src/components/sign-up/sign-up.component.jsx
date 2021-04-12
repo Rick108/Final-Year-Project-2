@@ -60,6 +60,7 @@ const SignUp = ({ signUpStart }) => {
           name='password'
           value={password}
           handleChange={handleChange}
+          autoComplete='off'
           required
         />
         <FormInput
@@ -68,6 +69,7 @@ const SignUp = ({ signUpStart }) => {
           name='confirmPassword'
           value={confirmPassword}
           handleChange={handleChange}
+          autoComplete='off'
           required
         />
         <CustomButton type='submit' onClick={() => {}}>

@@ -3,7 +3,7 @@ import EducationActionTypes from './education.types';
 const INITIAL_STATE = {
   educations: [],
   loading: false,
-  error: null
+  error: ''
 };
 
 const educationReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -19,7 +19,7 @@ const educationReducer = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         educations: payload,
         loading: false,
-        error: null
+        error: ''
       };
 
     case EducationActionTypes.ADD_EDUCATION_SUCCESS:
@@ -27,7 +27,7 @@ const educationReducer = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         educations: [payload, ...state.educations],
         loading: false,
-        error: null
+        error: ''
       };
 
     case EducationActionTypes.DELETE_EDUCATION_SUCCESS:
@@ -35,7 +35,7 @@ const educationReducer = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         educations: state.educations.filter(edu => edu.id !== payload),
         loading: false,
-        error: null
+        error: ''
       };
 
     case EducationActionTypes.CLEAR_EDUCATIONS:
@@ -43,7 +43,7 @@ const educationReducer = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         educations: [],
         loading: false,
-        error: null
+        error: ''
       };
 
     case EducationActionTypes.FETCH_EDUCATIONS_FAILURE:

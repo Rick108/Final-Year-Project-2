@@ -29,18 +29,19 @@ export function* getSnapshotFromUserAuth(userAuth, additionalData) {
       })
     );
   } catch (error) {
-    yield put(signInFailure(error));
+    console.error('error (session):', error);
+    yield put(signInFailure(error.message));
   }
 }
 
-// Sign in
+// Google sign in
 
 export function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
     yield getSnapshotFromUserAuth(user);
   } catch (error) {
-    yield put(signInFailure(error));
+    yield put(signInFailure(error.message));
   }
 }
 
@@ -55,7 +56,7 @@ export function* signInWithEmail({ payload: { email, password } }) {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
     yield getSnapshotFromUserAuth(user);
   } catch (error) {
-    yield put(signInFailure(error));
+    yield put(signInFailure(error.message));
   }
 }
 
@@ -73,8 +74,12 @@ export function* isUserAuthenticated() {
     }
     yield getSnapshotFromUserAuth(userAuth);
   } catch (error) {
-    yield put(signInFailure(error));
+    yield put(signInFailure(error.message));
   }
+}
+
+export function* onCheckUserSession() {
+  yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
 
 // Sign out
@@ -87,16 +92,12 @@ export function* signOut() {
     yield put(clearExperiences());
     yield put(clearEducations());
   } catch (error) {
-    yield put(signOutFailure(error));
+    yield put(signOutFailure(error.message));
   }
 }
 
 export function* onSignOutStart() {
   yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
-}
-
-export function* onCheckUserSession() {
-  yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
 
 // Sign up
@@ -106,7 +107,7 @@ export function* signUp({ payload: { email, password, displayName } }) {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
     yield put(signUpSuccess({ user, additionalData: { displayName } }));
   } catch (error) {
-    yield put(signUpFailure(error));
+    yield put(signUpFailure(error.message));
   }
 }
 
@@ -125,11 +126,11 @@ export function* onSignUpSuccess() {
 // Root User-Saga
 export function* userSagas() {
   yield all([
-    call(onGoogleSignInStart),
     call(onCheckUserSession),
-    call(onSignOutStart),
+    call(onGoogleSignInStart),
     call(onEmailSignInStart),
     call(onSignUpStart),
-    call(onSignUpSuccess)
+    call(onSignUpSuccess),
+    call(onSignOutStart)
   ]);
 }

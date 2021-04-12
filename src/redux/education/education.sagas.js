@@ -61,7 +61,7 @@ export function* onAddEducationStart() {
 export function* deleteEducation({ payload }) {
   if (
     window.confirm(
-      'Are you sure you want to delete this experience? This action cannot be undone.'
+      'Are you sure you want to delete this education? This action cannot be undone.'
     )
   ) {
     try {
