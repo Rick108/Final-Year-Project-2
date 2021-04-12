@@ -1,0 +1,35 @@
+.profile-item {
+  background-color: #f4f4f4;
+  color: #333;
+  border: 1px solid #ccc;
+  padding: 1.3rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+
+  &_main {
+    padding-left: 1.5rem;
+
+    h2 {
+      margin: 0;
+    }
+
+    .location {
+      margin-top: 2rem;
+    }
+  }
+
+  &_skills {
+    span {
+      display: block;
+
+      &:not(:last-child) {
+        padding-bottom: 10px;
+      }
+    }
+  }
+}

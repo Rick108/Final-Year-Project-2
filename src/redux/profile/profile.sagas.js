@@ -6,7 +6,9 @@ import {
   editProfileFailure,
   editProfileSuccess,
   fetchCurrentProfileFailure,
-  fetchCurrentProfileSuccess
+  fetchCurrentProfileSuccess,
+  fetchProfilesFailure,
+  fetchProfilesSuccess
 } from './profile.actions';
 import ProfileActionTypes from './profile.types';
 
@@ -17,11 +19,12 @@ export function* createProfile({ payload }) {
     const profileRef = firestore.collection('profiles').doc(auth.currentUser.uid);
     yield profileRef.set({
       ...payload,
-      skills: payload.skills.split(',').map(skill => skill.trim())
+      skills: payload.skills.split(',').map(skill => skill.trim()),
+      owner: auth.currentUser.displayName
     });
     yield put(createProfileSuccess(payload));
   } catch (error) {
-    yield put(createProfileFailure(error));
+    yield put(createProfileFailure(error.message));
   }
 }
 
@@ -45,7 +48,7 @@ export function* editProfile({ payload }) {
       yield put(editProfileSuccess(payload));
     }
   } catch (error) {
-    yield put(editProfileFailure(error));
+    yield put(editProfileFailure(error.message));
   }
 }
 
@@ -65,7 +68,7 @@ export function* onFetchCurrentProfile() {
       yield put(fetchCurrentProfileFailure('No profile found'));
     }
   } catch (error) {
-    yield put(fetchCurrentProfileFailure(error));
+    yield put(fetchCurrentProfileFailure(error.message));
   }
 }
 
@@ -73,11 +76,36 @@ export function* onFetchCurrentProfileStart() {
   yield takeLatest(ProfileActionTypes.FETCH_CURRENT_PROFILE_START, onFetchCurrentProfile);
 }
 
+// Fetch all profiles sagas
+
+export function* fetchProfiles() {
+  try {
+    const profilesCollection = yield firestore.collection('profiles').get();
+
+    const profilesState = [];
+    profilesCollection.docs.forEach(doc => {
+      profilesState.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+
+    yield put(fetchProfilesSuccess(profilesState));
+  } catch (error) {
+    yield put(fetchProfilesFailure(error.message));
+  }
+}
+
+export function* onFetchProfilesStart() {
+  yield takeLatest(ProfileActionTypes.FETCH_PROFILES_START, fetchProfiles);
+}
+
 // Root-Profile saga
 export function* profileSagas() {
   yield all([
     call(onFetchCurrentProfileStart),
     call(onCreateProfileStart),
-    call(onEditProfileStart)
+    call(onEditProfileStart),
+    call(onFetchProfilesStart)
   ]);
 }

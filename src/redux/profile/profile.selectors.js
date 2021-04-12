@@ -7,6 +7,11 @@ export const selectProfile = createSelector(
   profile => profile.profile
 );
 
+export const selectProfiles = createSelector(
+  [selectProfileState],
+  profile => profile.profiles
+);
+
 export const selectIsProfileFetching = createSelector(
   [selectProfileState],
   profile => profile.isFetching

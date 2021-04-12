@@ -50,6 +50,22 @@ export const fetchCurrentProfileFailure = error => ({
   payload: error
 });
 
+// Fetch all profiles actions
+
+export const fetchProfilesStart = () => ({
+  type: ProfileActionTypes.FETCH_PROFILES_START
+});
+
+export const fetchProfilesSuccess = profiles => ({
+  type: ProfileActionTypes.FETCH_PROFILES_SUCCESS,
+  payload: profiles
+});
+
+export const fetchProfilesFailure = errorMessage => ({
+  type: ProfileActionTypes.FETCH_PROFILES_FAILURE,
+  payload: errorMessage
+});
+
 // Clear profile from redux state
 
 export const clearProfile = () => ({

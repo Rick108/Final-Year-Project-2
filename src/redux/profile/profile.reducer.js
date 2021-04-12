@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   profile: null,
   profiles: [],
   isFetching: false,
-  error: null
+  error: ''
 };
 
 const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
@@ -22,7 +22,20 @@ const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
         ...state,
         profile: payload,
         isFetching: false,
-        error: null
+        error: ''
+      };
+
+    case ProfileActionTypes.FETCH_PROFILES_START:
+      return {
+        ...state,
+        isFetching: true
+      };
+
+    case ProfileActionTypes.FETCH_PROFILES_SUCCESS:
+      return {
+        ...state,
+        profiles: payload,
+        isFetching: false
       };
 
     case ProfileActionTypes.CLEAR_PROFILE:
@@ -31,7 +44,7 @@ const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
         profile: null,
         profiles: [],
         isFetching: false,
-        error: null
+        error: ''
       };
 
     case ProfileActionTypes.CREATE_PROFILE_FAILURE:

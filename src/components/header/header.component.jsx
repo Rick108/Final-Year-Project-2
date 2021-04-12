@@ -33,7 +33,7 @@ const Header = ({ currentUser, signOutStart }) => {
         </Link>
       </div>
       <div className='nav-links'>
-        <Link className='nav-link' to='/developers'>
+        <Link className='nav-link' to='/profiles'>
           Developers
         </Link>
         {currentUser ? authLinks : guestLinks}
