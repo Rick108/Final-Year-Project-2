@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 
 const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
-    case ProfileActionTypes.FETCH_CURRENT_PROFILE_START:
+    case ProfileActionTypes.FETCH_PROFILE_START:
       return {
         ...state,
         isFetching: true
@@ -17,7 +17,7 @@ const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
 
     case ProfileActionTypes.CREATE_PROFILE_SUCCESS:
     case ProfileActionTypes.EDIT_PROFILE_SUCCESS:
-    case ProfileActionTypes.FETCH_CURRENT_PROFILE_SUCCESS:
+    case ProfileActionTypes.FETCH_PROFILE_SUCCESS:
       return {
         ...state,
         profile: payload,
@@ -49,7 +49,7 @@ const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
 
     case ProfileActionTypes.CREATE_PROFILE_FAILURE:
     case ProfileActionTypes.EDIT_PROFILE_FAILURE:
-    case ProfileActionTypes.FETCH_CURRENT_PROFILE_FAILURE:
+    case ProfileActionTypes.FETCH_PROFILE_FAILURE:
       return {
         ...state,
         profile: null,

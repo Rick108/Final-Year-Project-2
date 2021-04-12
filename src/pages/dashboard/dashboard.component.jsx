@@ -4,10 +4,11 @@ import { withRouter } from 'react-router';
 import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import DashboardActions from '../../components/dashboard-actions/dashboard-actions.component';
-import Experience from '../../components/experience/experience.component';
 import Education from '../../components/education/education.component';
+import Experience from '../../components/experience/experience.component';
 import Spinner from '../../components/spinner/spinner.component';
-import { fetchCurrentProfileStart } from '../../redux/profile/profile.actions';
+import { auth } from '../../firebase/firebase.utils';
+import { fetchProfileStart } from '../../redux/profile/profile.actions';
 import {
   selectIsProfileFetching,
   selectProfile
@@ -17,14 +18,14 @@ import './dashboard.styles.scss';
 
 const DashboardPage = ({
   currentUser: { displayName },
-  fetchCurrentProfileStart,
+  fetchProfileStart,
   isProfileFetching,
   profile,
   history
 }) => {
   useEffect(() => {
-    fetchCurrentProfileStart();
-  }, [fetchCurrentProfileStart]);
+    fetchProfileStart(auth.currentUser.uid);
+  }, [fetchProfileStart]);
 
   return isProfileFetching ? (
     <Spinner />
@@ -60,7 +61,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCurrentProfileStart: () => dispatch(fetchCurrentProfileStart())
+  fetchProfileStart: id => dispatch(fetchProfileStart(id))
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DashboardPage));

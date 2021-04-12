@@ -5,10 +5,10 @@ import {
   createProfileSuccess,
   editProfileFailure,
   editProfileSuccess,
-  fetchCurrentProfileFailure,
-  fetchCurrentProfileSuccess,
+  fetchProfileFailure,
   fetchProfilesFailure,
-  fetchProfilesSuccess
+  fetchProfilesSuccess,
+  fetchProfileSuccess
 } from './profile.actions';
 import ProfileActionTypes from './profile.types';
 
@@ -56,24 +56,24 @@ export function* onEditProfileStart() {
   yield takeLatest(ProfileActionTypes.EDIT_PROFILE_START, editProfile);
 }
 
-// Fetch current user's profile sagas
+// Fetch a single profile sagas
 
-export function* onFetchCurrentProfile() {
+export function* fetchProfile({ payload }) {
   try {
-    const profileRef = firestore.collection('profiles').doc(auth.currentUser.uid);
+    const profileRef = firestore.collection('profiles').doc(payload);
     const profileSnapshot = yield profileRef.get();
     if (profileSnapshot.exists) {
-      yield put(fetchCurrentProfileSuccess(profileSnapshot.data()));
+      yield put(fetchProfileSuccess(profileSnapshot.data()));
     } else {
-      yield put(fetchCurrentProfileFailure('No profile found'));
+      yield put(fetchProfileFailure('No profile found'));
     }
   } catch (error) {
-    yield put(fetchCurrentProfileFailure(error.message));
+    yield put(fetchProfileFailure(error.message));
   }
 }
 
-export function* onFetchCurrentProfileStart() {
-  yield takeLatest(ProfileActionTypes.FETCH_CURRENT_PROFILE_START, onFetchCurrentProfile);
+export function* onFetchProfileStart() {
+  yield takeLatest(ProfileActionTypes.FETCH_PROFILE_START, fetchProfile);
 }
 
 // Fetch all profiles sagas
@@ -103,7 +103,7 @@ export function* onFetchProfilesStart() {
 // Root-Profile saga
 export function* profileSagas() {
   yield all([
-    call(onFetchCurrentProfileStart),
+    call(onFetchProfileStart),
     call(onCreateProfileStart),
     call(onEditProfileStart),
     call(onFetchProfilesStart)

@@ -34,19 +34,20 @@ export const editProfileFailure = error => ({
   payload: error
 });
 
-// Fetch current profile actions
+// Fetch a single profile actions
 
-export const fetchCurrentProfileStart = () => ({
-  type: ProfileActionTypes.FETCH_CURRENT_PROFILE_START
+export const fetchProfileStart = id => ({
+  type: ProfileActionTypes.FETCH_PROFILE_START,
+  payload: id
 });
 
-export const fetchCurrentProfileSuccess = profile => ({
-  type: ProfileActionTypes.FETCH_CURRENT_PROFILE_SUCCESS,
+export const fetchProfileSuccess = profile => ({
+  type: ProfileActionTypes.FETCH_PROFILE_SUCCESS,
   payload: profile
 });
 
-export const fetchCurrentProfileFailure = error => ({
-  type: ProfileActionTypes.FETCH_CURRENT_PROFILE_FAILURE,
+export const fetchProfileFailure = error => ({
+  type: ProfileActionTypes.FETCH_PROFILE_FAILURE,
   payload: error
 });
 

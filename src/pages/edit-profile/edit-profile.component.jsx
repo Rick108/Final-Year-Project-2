@@ -4,10 +4,8 @@ import { withRouter } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
-import {
-  editProfileStart,
-  fetchCurrentProfileStart
-} from '../../redux/profile/profile.actions';
+import { auth } from '../../firebase/firebase.utils';
+import { editProfileStart, fetchProfileStart } from '../../redux/profile/profile.actions';
 import {
   selectIsProfileFetching,
   selectProfile
@@ -15,7 +13,7 @@ import {
 import './edit-profile.styles.scss';
 
 const EditProfile = ({
-  fetchCurrentProfileStart,
+  fetchProfileStart,
   isProfileFetching,
   profile,
   editProfileStart,
@@ -38,7 +36,7 @@ const EditProfile = ({
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   useEffect(() => {
-    fetchCurrentProfileStart();
+    fetchProfileStart(auth.currentUser.uid);
 
     setFormData({
       company: isProfileFetching || !profile.company ? '' : profile.company,
@@ -55,7 +53,7 @@ const EditProfile = ({
       facebook: isProfileFetching || !profile.facebook ? '' : profile.facebook,
       instagram: isProfileFetching || !profile.instagram ? '' : profile.instagram
     });
-  }, [fetchCurrentProfileStart]);
+  }, [fetchProfileStart]);
 
   const {
     status,
@@ -237,7 +235,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchCurrentProfileStart: () => dispatch(fetchCurrentProfileStart()),
+  fetchProfileStart: () => dispatch(fetchProfileStart()),
   editProfileStart: formData => dispatch(editProfileStart(formData))
 });
 
