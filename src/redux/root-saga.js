@@ -4,12 +4,14 @@ import { userSagas } from './user/user.sagas';
 import { profileSagas } from './profile/profile.sagas';
 import { experienceSagas } from './experience/experience.sagas';
 import { educationSagas } from './education/education.sagas';
+import { postSagas } from './post/post.sagas';
 
 export default function* rootSaga() {
   yield all([
     call(userSagas),
     call(profileSagas),
     call(experienceSagas),
-    call(educationSagas)
+    call(educationSagas),
+    call(postSagas)
   ]);
 }

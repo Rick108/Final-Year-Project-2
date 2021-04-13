@@ -8,6 +8,7 @@ import './header.styles.scss';
 const Header = ({ currentUser, signOutStart }) => {
   const authLinks = (
     <>
+      <Link className="nav-link" to='/posts'>Posts</Link>
       <Link className='nav-link' to='/dashboard'>
         <i className='fas fa-user'></i> Dashboard
       </Link>

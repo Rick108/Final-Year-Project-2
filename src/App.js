@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import './App.scss';
+
 import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
 import SignInAndSignOut from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
@@ -13,9 +14,11 @@ import EditProfile from './pages/edit-profile/edit-profile.component';
 import AddExperience from './pages/add-experience/add-experience.component';
 import AddEducation from './pages/add-education/add-education.component';
 import ProfilesPage from './pages/profiles/profiles.component';
+import ProfilePage from './pages/profile/profile.component';
+import PostsPage from './pages/posts/posts.component';
+
 import { checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
-import ProfilePage from './pages/profile/profile.component';
 
 const App = ({ checkUserSession, currentUser }) => {
   useEffect(() => {
@@ -42,6 +45,7 @@ const App = ({ checkUserSession, currentUser }) => {
             <PrivateRoute exact path='/add-education' component={AddEducation} />
             <Route exact path='/profiles' component={ProfilesPage} />
             <Route exact path='/profile/:id' component={ProfilePage} />
+            <PrivateRoute exact path='/posts' component={PostsPage} />
           </section>
         </>
       </Switch>
