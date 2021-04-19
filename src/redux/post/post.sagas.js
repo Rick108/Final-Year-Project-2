@@ -53,8 +53,8 @@ export function* createPost({ payload: { postText, commentCreator } }) {
       }
     };
 
-    postsRef.add(newPostObj);
-    yield put(createPostSuccess(newPostObj));
+    const newPostRef = yield postsRef.add(newPostObj);
+    yield put(createPostSuccess({ id: newPostRef.id, ...newPostObj }));
   } catch (error) {
     yield put(createPostFailure(error.message));
   }
