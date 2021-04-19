@@ -10,6 +10,7 @@ const INITIAL_STATE = {
 const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case ProfileActionTypes.FETCH_PROFILE_START:
+    case ProfileActionTypes.FETCH_PROFILES_START:
       return {
         ...state,
         isFetching: true
@@ -23,12 +24,6 @@ const profileReducer = (state = INITIAL_STATE, { type, payload }) => {
         profile: payload,
         isFetching: false,
         error: ''
-      };
-
-    case ProfileActionTypes.FETCH_PROFILES_START:
-      return {
-        ...state,
-        isFetching: true
       };
 
     case ProfileActionTypes.FETCH_PROFILES_SUCCESS:

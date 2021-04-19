@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { createPostStart } from '../../redux/post/post.actions';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import CustomButton from '../custom-button/custom-button.component';
 
-const PostForm = ({ createPostStart }) => {
+const PostForm = ({ createPostStart, currentUser }) => {
   const [text, setText] = useState('');
 
   const handleChange = e => {
@@ -13,7 +15,7 @@ const PostForm = ({ createPostStart }) => {
   const handleSubmit = e => {
     e.preventDefault();
     // TODO: handle post submit
-    createPostStart(text);
+    createPostStart(text, currentUser);
     setText('');
   };
 
@@ -35,8 +37,13 @@ const PostForm = ({ createPostStart }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  createPostStart: postText => dispatch(createPostStart(postText))
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser
 });
 
-export default connect(null, mapDispatchToProps)(PostForm);
+const mapDispatchToProps = dispatch => ({
+  createPostStart: (postText, currentUser) =>
+    dispatch(createPostStart(postText, currentUser))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostForm);

@@ -2,6 +2,7 @@ $google-color: #4285f4;
 $google-hover-color: #357ae8;
 $danger-color: #dc3545;
 $danger-hover-color: #c52333;
+$primary-color: #17a2b8;
 
 .custom-button {
   min-width: 165px;
@@ -55,5 +56,21 @@ $danger-hover-color: #c52333;
       background-color: $danger-hover-color;
       color: white;
     }
+  }
+
+  &.primary-blue {
+    background-color: $primary-color;
+    color: white;
+    border: none;
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &.width-auto {
+    min-width: auto;
+    padding: 0 1.4rem;
+    font-size: 1rem;
   }
 }

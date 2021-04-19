@@ -35,8 +35,8 @@ const ProfilePage = ({
       ) : profile ? (
         <>
           <div className='buttons'>
-            <CustomButton onClick={() => history.push('/profiles')} light>
-              Back to Profiles
+            <CustomButton onClick={() => history.goBack()} light>
+              Back
             </CustomButton>
             {currentUser && currentUser.id === profile.userId && (
               <CustomButton onClick={() => history.push('/edit-profile')}>
