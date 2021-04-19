@@ -52,3 +52,9 @@ export const deletePostFailure = errorMessage => ({
   type: PostActionTypes.DELETE_POST_FAILURE,
   payload: errorMessage
 });
+
+// Clear post state in redux action
+
+export const clearPostState = () => ({
+  type: PostActionTypes.CLEAR_POST_STATE
+});

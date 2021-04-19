@@ -49,6 +49,15 @@ const postReducer = (state = INITIAL_STATE, { type, payload }) => {
         error: payload
       };
 
+    case PostActionTypes.CLEAR_POST_STATE:
+      return {
+        ...state,
+        post: null,
+        posts: [],
+        loading: false,
+        error: ''
+      };
+
     default:
       return state;
   }
