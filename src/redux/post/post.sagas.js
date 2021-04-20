@@ -14,6 +14,7 @@ import {
 } from './post.actions';
 import PostActionTypes from './post.types';
 import firebase from '../../firebase/firebase.utils';
+import { setAlertStart } from '../alert/alert.actions';
 
 // Fetch all posts sagas
 
@@ -35,6 +36,9 @@ export function* fetchPosts() {
     yield put(fetchPostsSuccess(postsState));
   } catch (error) {
     yield put(fetchPostsFailure(error));
+    yield put(
+      setAlertStart('danger', 'Something went wrong while fetching the posts', 4000)
+    );
   }
 }
 
@@ -58,11 +62,13 @@ export function* createPost({ payload: { postText, commentCreator } }) {
       },
       likes: []
     };
-
     const newPostRef = yield postsRef.add(newPostObj);
+
     yield put(createPostSuccess({ id: newPostRef.id, ...newPostObj }));
+    yield put(setAlertStart('success', 'Post created!', 3000));
   } catch (error) {
     yield put(createPostFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -78,11 +84,14 @@ export function* deletePost({ payload }) {
       const postRef = firestore.collection('posts').doc(payload);
       yield postRef.delete();
       yield put(deletePostSuccess(payload));
+      yield put(setAlertStart('success', 'Post deleted successfully!'));
     } catch (error) {
       yield put(deletePostFailure(error.message));
+      yield put(setAlertStart('danger', error.message));
     }
   } else {
     yield put(deletePostFailure('Post deletion cancelled'));
+    yield put(setAlertStart('general', 'Post deletion cancelled', 3000));
   }
 }
 
@@ -103,6 +112,7 @@ export function* likePost({ payload: { postId, likeOwner } }) {
     // if the post is already liked by the same user
     if (postSnapshot.data().likes.some(like => like === likeOwner)) {
       yield put(likePostFailure('Post already liked'));
+      yield put(setAlertStart('danger', 'Post already liked', 3000));
       return;
     }
 
@@ -118,8 +128,10 @@ export function* likePost({ payload: { postId, likeOwner } }) {
         likes: postSnapshot.data().likes
       })
     );
+    yield put(setAlertStart('success', 'Post liked!', 3000));
   } catch (error) {
     yield put(likePostFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -140,6 +152,7 @@ export function* unlikePost({ payload: { postId, likeOwner } }) {
     // if the post is not yet liked by the same user
     if (!postSnapshot.data().likes.some(like => like === likeOwner)) {
       yield put(unlikePostFailure('Post not liked yet'));
+      yield put(setAlertStart('danger', 'Post not liked yet', 3000));
       return;
     }
 
@@ -155,8 +168,10 @@ export function* unlikePost({ payload: { postId, likeOwner } }) {
         likes: postSnapshot.data().likes
       })
     );
+    yield put(setAlertStart('success', 'Post unliked!', 3000));
   } catch (error) {
     yield put(unlikePostFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 

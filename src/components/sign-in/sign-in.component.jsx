@@ -27,11 +27,6 @@ const SignIn = ({ googleSignInStart, emailSignInStart, error }) => {
     emailSignInStart(email, password);
   };
 
-  // TODO: fix it so that every time sign in failure action fires, this alert shows each time as well.
-  // if (error) {
-  //   alert(error);
-  // }
-
   return (
     <div className='sign-in'>
       <h2 className='title'>I have an account</h2>

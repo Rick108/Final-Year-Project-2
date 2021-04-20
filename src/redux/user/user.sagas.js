@@ -18,6 +18,7 @@ import {
 import UserActionTypes from './user.types';
 import { clearEducations } from '../education/education.actions';
 import { clearPostState } from '../post/post.actions';
+import { setAlertStart } from '../alert/alert.actions';
 
 export function* getSnapshotFromUserAuth(userAuth, additionalData) {
   try {
@@ -30,8 +31,8 @@ export function* getSnapshotFromUserAuth(userAuth, additionalData) {
       })
     );
   } catch (error) {
-    console.error('error (session):', error);
     yield put(signInFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -43,6 +44,7 @@ export function* signInWithGoogle() {
     yield getSnapshotFromUserAuth(user);
   } catch (error) {
     yield put(signInFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -58,6 +60,7 @@ export function* signInWithEmail({ payload: { email, password } }) {
     yield getSnapshotFromUserAuth(user);
   } catch (error) {
     yield put(signInFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -110,6 +113,7 @@ export function* signUp({ payload: { email, password, displayName } }) {
     yield put(signUpSuccess({ user, additionalData: { displayName } }));
   } catch (error) {
     yield put(signUpFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 

@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import './App.scss';
 
 import Header from './components/header/header.component';
+import Alerts from './components/alerts/alerts.component';
 import HomePage from './pages/homepage/homepage.component';
 import SignInAndSignOut from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
 import PrivateRoute from './components/routing/PrivateRoute';
@@ -49,6 +50,7 @@ const App = ({ checkUserSession, currentUser }) => {
           </section>
         </>
       </Switch>
+      <Alerts />
     </>
   );
 };

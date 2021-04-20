@@ -1,4 +1,4 @@
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DayJS from 'react-dayjs';
 import { createStructuredSelector } from 'reselect';
@@ -17,8 +17,7 @@ const PostItem = ({
   currentUser,
   likePostStart,
   unlikePostStart,
-  deletePostStart,
-  history
+  deletePostStart
 }) => {
   const likePostObj = {
     postId: id,
@@ -49,9 +48,9 @@ const PostItem = ({
             <CustomButton onClick={() => unlikePostStart(likePostObj)} widthAuto light>
               <i className='fas fa-thumbs-down'></i>
             </CustomButton>
-            <CustomButton onClick={() => history.push(`/posts/${id}`)} primaryBlue>
+            {/* <CustomButton onClick={() => history.push(`/posts/${id}`)} primaryBlue>
               Discussions <span className='comment-count'>4</span>
-            </CustomButton>
+            </CustomButton> */}
             {currentUser && currentUser.id === user.id && (
               <CustomButton
                 onClick={() => deletePostStart(id)}
@@ -77,4 +76,4 @@ const mapDispatchToProps = dispatch => ({
   deletePostStart: postId => dispatch(deletePostStart(postId))
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostItem));
+export default connect(mapStateToProps, mapDispatchToProps)(PostItem);

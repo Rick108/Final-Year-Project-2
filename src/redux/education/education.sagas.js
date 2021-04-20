@@ -9,6 +9,7 @@ import {
   fetchEducationsSuccess
 } from './education.actions';
 import { auth, firestore } from '../../firebase/firebase.utils';
+import { setAlertStart } from '../alert/alert.actions';
 
 // Fetch educations sagas
 
@@ -28,6 +29,7 @@ export function* fetchEducations({ payload }) {
     yield put(fetchEducationsSuccess(educationsState));
   } catch (error) {
     yield put(fetchEducationsFailure(error));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -45,8 +47,10 @@ export function* addEducation({ payload }) {
 
     yield educationRef.add(payload);
     yield put(addEducationSuccess(payload));
+    yield put(setAlertStart('success', 'Education added successfully!'));
   } catch (error) {
     yield put(addEducationFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -71,9 +75,14 @@ export function* deleteEducation({ payload }) {
       const educationRef = profileRef.collection('educations').doc(payload);
       yield educationRef.delete();
       yield put(deleteEducationSuccess(payload));
+      yield put(setAlertStart('success', 'Education deleted successfully!'));
     } catch (error) {
       yield put(deleteEducationFailure(error.message));
+      yield put(setAlertStart('danger', error.message));
     }
+  } else {
+    yield put(deleteEducationFailure('Education deletion cancelled'));
+    yield put(setAlertStart('general', 'Education deletion cancelled'));
   }
 }
 

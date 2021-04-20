@@ -1,5 +1,6 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { auth, firestore } from '../../firebase/firebase.utils';
+import { setAlertStart } from '../alert/alert.actions';
 import {
   createProfileFailure,
   createProfileSuccess,
@@ -23,8 +24,10 @@ export function* createProfile({ payload }) {
       owner: auth.currentUser.displayName
     });
     yield put(createProfileSuccess(payload));
+    yield put(setAlertStart('success', 'Profile created successfully!', 3000));
   } catch (error) {
     yield put(createProfileFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -46,9 +49,11 @@ export function* editProfile({ payload }) {
         skills: payload.skills.split(',').map(skill => skill.trim())
       });
       yield put(editProfileSuccess(payload));
+      yield put(setAlertStart('success', 'Profile updated successfully!', 3000));
     }
   } catch (error) {
     yield put(editProfileFailure(error.message));
+    yield put(setAlertStart('danger', error.message));
   }
 }
 
@@ -75,6 +80,9 @@ export function* fetchProfile({ payload }) {
     }
   } catch (error) {
     yield put(fetchProfileFailure(error.message));
+    yield put(
+      setAlertStart('danger', 'Something went wrong while fetching this profile')
+    );
   }
 }
 
@@ -99,6 +107,7 @@ export function* fetchProfiles() {
     yield put(fetchProfilesSuccess(profilesState));
   } catch (error) {
     yield put(fetchProfilesFailure(error.message));
+    yield put(setAlertStart('danger', 'Something went wrong while fetching profiles'));
   }
 }
 
