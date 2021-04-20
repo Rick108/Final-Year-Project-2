@@ -2,18 +2,29 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import DayJS from 'react-dayjs';
 import { createStructuredSelector } from 'reselect';
-import { deletePostStart } from '../../redux/post/post.actions';
+import {
+  likePostStart,
+  unlikePostStart,
+  deletePostStart
+} from '../../redux/post/post.actions';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import CustomButton from '../custom-button/custom-button.component';
 import DefaultDP from '../../assets/no-dp.jpg';
 import './post-item.styles.scss';
 
 const PostItem = ({
-  post: { id, text, createdAt, user },
+  post: { id, text, createdAt, user, likes },
   currentUser,
+  likePostStart,
+  unlikePostStart,
   deletePostStart,
   history
 }) => {
+  const likePostObj = {
+    postId: id,
+    likeOwner: currentUser.id
+  };
+
   return (
     <div className='post-item'>
       <div className='post-item_user'>
@@ -31,10 +42,11 @@ const PostItem = ({
         )}
         <div className='post-item_actions'>
           <div className='buttons'>
-            <CustomButton widthAuto light>
-              <i className='fas fa-thumbs-up'></i> 1
+            <CustomButton onClick={() => likePostStart(likePostObj)} widthAuto light>
+              <i className='fas fa-thumbs-up'></i>{' '}
+              {likes && likes.length > 0 && likes.length}
             </CustomButton>
-            <CustomButton widthAuto light>
+            <CustomButton onClick={() => unlikePostStart(likePostObj)} widthAuto light>
               <i className='fas fa-thumbs-down'></i>
             </CustomButton>
             <CustomButton onClick={() => history.push(`/posts/${id}`)} primaryBlue>
@@ -60,6 +72,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
+  likePostStart: likePostObj => dispatch(likePostStart(likePostObj)),
+  unlikePostStart: likePostObj => dispatch(unlikePostStart(likePostObj)),
   deletePostStart: postId => dispatch(deletePostStart(postId))
 });
 

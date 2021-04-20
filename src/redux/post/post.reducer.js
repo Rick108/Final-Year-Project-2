@@ -40,8 +40,21 @@ const postReducer = (state = INITIAL_STATE, { type, payload }) => {
         error: ''
       };
 
+    case PostActionTypes.LIKE_POST_SUCCESS:
+    case PostActionTypes.UNLIKE_POST_SUCCESS:
+      return {
+        ...state,
+        posts: state.posts.map(post =>
+          post.id === payload.postId ? { ...post, likes: payload.likes } : post
+        ),
+        loading: false,
+        error: ''
+      };
+
     case PostActionTypes.CREATE_POST_FAILURE:
     case PostActionTypes.DELETE_POST_FAILURE:
+    case PostActionTypes.LIKE_POST_FAILURE:
+    case PostActionTypes.UNLIKE_POST_FAILURE:
       return {
         ...state,
         post: null,

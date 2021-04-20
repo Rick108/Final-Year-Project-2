@@ -6,9 +6,14 @@ import {
   deletePostFailure,
   deletePostSuccess,
   fetchPostsFailure,
-  fetchPostsSuccess
+  fetchPostsSuccess,
+  likePostFailure,
+  likePostSuccess,
+  unlikePostFailure,
+  unlikePostSuccess
 } from './post.actions';
 import PostActionTypes from './post.types';
+import firebase from '../../firebase/firebase.utils';
 
 // Fetch all posts sagas
 
@@ -50,7 +55,8 @@ export function* createPost({ payload: { postText, commentCreator } }) {
       user: {
         id: commentCreator.id,
         displayName: commentCreator.displayName
-      }
+      },
+      likes: []
     };
 
     const newPostRef = yield postsRef.add(newPostObj);
@@ -84,7 +90,87 @@ export function* onDeletePostStart() {
   yield takeLatest(PostActionTypes.DELETE_POST_START, deletePost);
 }
 
+// Like a post sagas
+
+export function* likePost({ payload: { postId, likeOwner } }) {
+  try {
+    const postRef = firestore.doc(`posts/${postId}`);
+
+    let postSnapshot;
+
+    postSnapshot = yield postRef.get();
+
+    // if the post is already liked by the same user
+    if (postSnapshot.data().likes.some(like => like === likeOwner)) {
+      yield put(likePostFailure('Post already liked'));
+      return;
+    }
+
+    yield postRef.update({
+      likes: firebase.firestore.FieldValue.arrayUnion(likeOwner)
+    });
+
+    postSnapshot = yield postRef.get();
+
+    yield put(
+      likePostSuccess({
+        postId: postId,
+        likes: postSnapshot.data().likes
+      })
+    );
+  } catch (error) {
+    yield put(likePostFailure(error.message));
+  }
+}
+
+export function* onLikePostStart() {
+  yield takeLatest(PostActionTypes.LIKE_POST_START, likePost);
+}
+
+// Unlike a post sagas
+
+export function* unlikePost({ payload: { postId, likeOwner } }) {
+  try {
+    const postRef = firestore.doc(`posts/${postId}`);
+
+    let postSnapshot;
+
+    postSnapshot = yield postRef.get();
+
+    // if the post is not yet liked by the same user
+    if (!postSnapshot.data().likes.some(like => like === likeOwner)) {
+      yield put(unlikePostFailure('Post not liked yet'));
+      return;
+    }
+
+    yield postRef.update({
+      likes: firebase.firestore.FieldValue.arrayRemove(likeOwner)
+    });
+
+    postSnapshot = yield postRef.get();
+
+    yield put(
+      unlikePostSuccess({
+        postId: postId,
+        likes: postSnapshot.data().likes
+      })
+    );
+  } catch (error) {
+    yield put(unlikePostFailure(error.message));
+  }
+}
+
+export function* onUnlikePostStart() {
+  yield takeLatest(PostActionTypes.UNLIKE_POST_START, unlikePost);
+}
+
 // Root-Post saga
 export function* postSagas() {
-  yield all([call(onFetchPostsStart), call(onCreatePostStart), call(onDeletePostStart)]);
+  yield all([
+    call(onFetchPostsStart),
+    call(onCreatePostStart),
+    call(onDeletePostStart),
+    call(onLikePostStart),
+    call(onUnlikePostStart)
+  ]);
 }
