@@ -5,7 +5,8 @@ import {
   getCurrentUser,
   googleProvider
 } from '../../firebase/firebase.utils';
-import { clearExperiences } from '../experience/experience.actions';
+import { setAlertStart } from '../alert/alert.actions';
+import { clearPostState } from '../post/post.actions';
 import {
   signInFailure,
   signInSuccess,
@@ -15,9 +16,6 @@ import {
   signUpSuccess
 } from './user.actions';
 import UserActionTypes from './user.types';
-import { clearEducations } from '../education/education.actions';
-import { clearPostState } from '../post/post.actions';
-import { setAlertStart } from '../alert/alert.actions';
 
 export function* getSnapshotFromUserAuth(userAuth, additionalData) {
   try {
@@ -91,8 +89,6 @@ export function* signOut() {
   try {
     yield auth.signOut();
     yield put(signOutSuccess());
-    yield put(clearExperiences());
-    yield put(clearEducations());
     yield put(clearPostState());
   } catch (error) {
     yield put(signOutFailure(error.message));
