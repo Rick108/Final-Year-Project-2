@@ -15,7 +15,7 @@ const setAlertBgColor = ({ alertType }) => {
 
 export const AlertsContainer = styled.div`
   position: fixed;
-  bottom: 60px;
+  bottom: 70px;
   width: 100%;
   z-index: 10;
   display: flex;

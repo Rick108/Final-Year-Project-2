@@ -40,6 +40,12 @@ const postReducer = (state = INITIAL_STATE, { type, payload }) => {
         error: ''
       };
 
+    case PostActionTypes.LIKE_POST_START:
+    case PostActionTypes.UNLIKE_POST_START:
+      return {
+        ...state
+      };
+
     case PostActionTypes.LIKE_POST_SUCCESS:
     case PostActionTypes.UNLIKE_POST_SUCCESS:
       return {

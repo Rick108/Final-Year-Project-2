@@ -2,7 +2,7 @@ import ExperienceActionTypes from './experience.types';
 
 const INITIAL_STATE = {
   experiences: [],
-  isFetching: false,
+  loading: false,
   error: null
 };
 
@@ -11,30 +11,42 @@ const experienceReducer = (state = INITIAL_STATE, { type, payload }) => {
     case ExperienceActionTypes.FETCH_EXPERIENCES_START:
       return {
         ...state,
-        isFetching: true
+        loading: true
       };
 
     case ExperienceActionTypes.FETCH_EXPERIENCES_SUCCESS:
       return {
         ...state,
         experiences: payload,
-        isFetching: false,
+        loading: false,
         error: null
+      };
+
+    case ExperienceActionTypes.ADD_EXPERIENCE_START:
+      return {
+        ...state,
+        loading: true
       };
 
     case ExperienceActionTypes.ADD_EXPERIENCE_SUCCESS:
       return {
         ...state,
         experiences: [payload, ...state.experiences],
-        isFetching: false,
+        loading: false,
         error: null
+      };
+
+    case ExperienceActionTypes.DELETE_EXPERIENCE_START:
+      return {
+        ...state,
+        loading: true
       };
 
     case ExperienceActionTypes.DELETE_EXPERIENCE_SUCCESS:
       return {
         ...state,
         experiences: state.experiences.filter(exp => exp.id !== payload),
-        isFetching: false,
+        loading: false,
         error: null
       };
 
@@ -42,7 +54,7 @@ const experienceReducer = (state = INITIAL_STATE, { type, payload }) => {
       return {
         ...state,
         experiences: [],
-        isFetching: false,
+        loading: false,
         error: null
       };
 
@@ -51,7 +63,7 @@ const experienceReducer = (state = INITIAL_STATE, { type, payload }) => {
     case ExperienceActionTypes.DELETE_EXPERIENCE_FAILURE:
       return {
         ...state,
-        isFetching: false,
+        loading: false,
         error: payload
       };
 

@@ -7,7 +7,7 @@ export const selectExperiences = createSelector(
   experience => experience.experiences
 );
 
-export const selectAreExperiencesFetching = createSelector(
+export const selectAreExperiencesLoading = createSelector(
   [selectExperienceState],
-  experience => experience.isFetching
+  experience => experience.loading
 );

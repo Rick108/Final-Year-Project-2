@@ -7,7 +7,7 @@ import {
   fetchExperiencesStart
 } from '../../redux/experience/experience.actions';
 import {
-  selectAreExperiencesFetching,
+  selectAreExperiencesLoading,
   selectExperiences
 } from '../../redux/experience/experience.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
@@ -18,7 +18,7 @@ const Experience = ({
   currentUser,
   fetchExperiencesStart,
   experiences,
-  isFetching,
+  isLoading,
   deleteExperienceStart
 }) => {
   useEffect(() => {
@@ -28,7 +28,7 @@ const Experience = ({
   return (
     <div className='experience'>
       <h2>Experience Credentials</h2>
-      {isFetching ? (
+      {isLoading ? (
         <Spinner small />
       ) : (
         <table>
@@ -51,7 +51,7 @@ const Experience = ({
                 </td>
                 <td>
                   <CustomButton onClick={() => deleteExperienceStart(exp.id)} danger>
-                    Delete
+                    {isLoading ? <i class='fa fa-spinner fa-spin'></i> : 'Delete'}
                   </CustomButton>
                 </td>
               </tr>
@@ -66,7 +66,7 @@ const Experience = ({
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   experiences: selectExperiences,
-  isFetching: selectAreExperiencesFetching
+  isLoading: selectAreExperiencesLoading
 });
 
 const mapDispatchToProps = dispatch => ({

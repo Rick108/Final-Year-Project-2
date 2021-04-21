@@ -2,12 +2,20 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { emailSignInStart, googleSignInStart } from '../../redux/user/user.actions';
-import { selectUserError } from '../../redux/user/user.selectors';
+import {
+  selectEmailSignInLoading,
+  selectGoogleSignInLoading
+} from '../../redux/user/user.selectors';
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 import './sign-in.styles.scss';
 
-const SignIn = ({ googleSignInStart, emailSignInStart, error }) => {
+const SignIn = ({
+  googleSignInStart,
+  emailSignInStart,
+  emailSignInLoading,
+  googleSignInLoading
+}) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -50,11 +58,19 @@ const SignIn = ({ googleSignInStart, emailSignInStart, error }) => {
           required
         />
         <div className='buttons'>
-          <CustomButton type='submit' onClick={() => {}}>
-            Sign In
+          <CustomButton type='submit' disabled={!!emailSignInLoading}>
+            {emailSignInLoading ? <i className='fas fa-spinner fa-spin'></i> : 'Sign In'}
           </CustomButton>
-          <CustomButton type='button' onClick={googleSignInStart} isGoogleSignIn>
-            Sign in with Google
+          <CustomButton
+            type='button'
+            onClick={googleSignInStart}
+            disabled={!!googleSignInLoading}
+            isGoogleSignIn>
+            {googleSignInLoading ? (
+              <i className='fas fa-spinner fa-spin'></i>
+            ) : (
+              'Sign in with Google'
+            )}
           </CustomButton>
         </div>
       </form>
@@ -63,7 +79,8 @@ const SignIn = ({ googleSignInStart, emailSignInStart, error }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  error: selectUserError
+  emailSignInLoading: selectEmailSignInLoading,
+  googleSignInLoading: selectGoogleSignInLoading
 });
 
 const mapDispatchToProps = dispatch => ({

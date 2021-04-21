@@ -7,7 +7,7 @@ export const selectEducations = createSelector(
   education => education.educations
 );
 
-export const selectAreEducationsFetching = createSelector(
+export const selectAreEducationsLoading = createSelector(
   [selectEducationState],
   education => education.loading
 );

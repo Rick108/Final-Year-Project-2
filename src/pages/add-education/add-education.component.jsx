@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
 import { addEducationStart } from '../../redux/education/education.actions';
+import { selectAreEducationsLoading } from '../../redux/education/education.selectors';
 import './add-education.styles.scss';
 
-const AddEducation = ({ addEducationStart, history }) => {
+const AddEducation = ({ addEducationStart, educationLoading, history }) => {
   const [formData, setFormData] = useState({
     school: '',
     degree: '',
@@ -101,7 +103,9 @@ const AddEducation = ({ addEducationStart, history }) => {
           textarea
         />
         <div className='buttons'>
-          <CustomButton type='submit'>Submit</CustomButton>
+          <CustomButton type='submit'>
+            {educationLoading ? <i class='fa fa-spinner fa-spin'></i> : 'Add Education'}
+          </CustomButton>
           <CustomButton type='button' onClick={() => history.goBack()} light>
             Go Back
           </CustomButton>
@@ -111,8 +115,12 @@ const AddEducation = ({ addEducationStart, history }) => {
   );
 };
 
+const mapStateToProps = createStructuredSelector({
+  educationLoading: selectAreEducationsLoading
+});
+
 const mapDispatchToProps = dispatch => ({
   addEducationStart: formData => dispatch(addEducationStart(formData))
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(AddEducation));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddEducation));

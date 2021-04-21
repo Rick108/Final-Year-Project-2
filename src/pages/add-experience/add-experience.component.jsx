@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { createStructuredSelector } from 'reselect';
 import CustomButton from '../../components/custom-button/custom-button.component';
 import FormInput from '../../components/form-input/form-input.component';
 import { addExperienceStart } from '../../redux/experience/experience.actions';
+import { selectAreExperiencesLoading } from '../../redux/experience/experience.selectors';
 import './add-experience.styles.scss';
 
-const AddExperience = ({ addExperienceStart, history }) => {
+const AddExperience = ({ addExperienceStart, experienceLoading, history }) => {
   const [formData, setFormData] = useState({
     title: '',
     company: '',
@@ -100,7 +102,9 @@ const AddExperience = ({ addExperienceStart, history }) => {
           textarea
         />
         <div className='buttons'>
-          <CustomButton type='submit'>Submit</CustomButton>
+          <CustomButton type='submit'>
+            {experienceLoading ? <i class='fa fa-spinner fa-spin'></i> : 'Add Experience'}
+          </CustomButton>
           <CustomButton type='button' onClick={() => history.goBack()} light>
             Go Back
           </CustomButton>
@@ -110,8 +114,12 @@ const AddExperience = ({ addExperienceStart, history }) => {
   );
 };
 
+const mapStateToProps = createStructuredSelector({
+  experienceLoading: selectAreExperiencesLoading
+});
+
 const mapDispatchToProps = dispatch => ({
   addExperienceStart: formData => dispatch(addExperienceStart(formData))
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(AddExperience));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddExperience));

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { fetchEducationsStart } from '../../redux/education/education.actions';
 import {
-  selectAreEducationsFetching,
+  selectAreEducationsLoading,
   selectEducations
 } from '../../redux/education/education.selectors';
 import Spinner from '../spinner/spinner.component';
@@ -62,7 +62,7 @@ const ProfileEducation = ({
 };
 
 const mapStateToProps = createStructuredSelector({
-  isFetching: selectAreEducationsFetching,
+  isFetching: selectAreEducationsLoading,
   educations: selectEducations
 });
 

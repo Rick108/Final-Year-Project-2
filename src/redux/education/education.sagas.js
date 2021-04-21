@@ -47,7 +47,7 @@ export function* addEducation({ payload }) {
 
     yield educationRef.add(payload);
     yield put(addEducationSuccess(payload));
-    yield put(setAlertStart('success', 'Education added successfully!'));
+    yield put(setAlertStart('success', 'Education added successfully!', 3000));
   } catch (error) {
     yield put(addEducationFailure(error.message));
     yield put(setAlertStart('danger', error.message));

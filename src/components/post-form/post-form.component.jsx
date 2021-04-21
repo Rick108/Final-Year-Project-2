@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { createPostStart } from '../../redux/post/post.actions';
+import { selectArePostsLoading } from '../../redux/post/post.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
 import CustomButton from '../custom-button/custom-button.component';
 
-const PostForm = ({ createPostStart, currentUser }) => {
+const PostForm = ({ createPostStart, currentUser, createPostLoading }) => {
   const [text, setText] = useState('');
 
   const handleChange = e => {
@@ -31,14 +32,17 @@ const PostForm = ({ createPostStart, currentUser }) => {
           placeholder='Create a post'
           value={text}
           onChange={handleChange}></textarea>
-        <CustomButton type='submit'>Post</CustomButton>
+        <CustomButton type='submit'>
+          {createPostLoading ? <i className='fa fa-spinner fa-spin'></i> : 'Post'}
+        </CustomButton>
       </form>
     </div>
   );
 };
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  createPostLoading: selectArePostsLoading
 });
 
 const mapDispatchToProps = dispatch => ({

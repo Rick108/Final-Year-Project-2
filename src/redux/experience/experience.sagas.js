@@ -47,7 +47,7 @@ export function* addExperience({ payload }) {
 
     yield experienceRef.add(payload);
     yield put(addExperienceSuccess(payload));
-    yield put(setAlertStart('success', 'Experience added successfully!'));
+    yield put(setAlertStart('success', 'Experience added successfully!', 3000));
   } catch (error) {
     yield put(addExperienceFailure(error.message));
     yield put(setAlertStart('danger', error.message));

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { fetchExperiencesStart } from '../../redux/experience/experience.actions';
 import {
-  selectAreExperiencesFetching,
+  selectAreExperiencesLoading,
   selectExperiences
 } from '../../redux/experience/experience.selectors';
 import Spinner from '../spinner/spinner.component';
@@ -13,7 +13,7 @@ import DayJS from 'react-dayjs';
 const ProfileExperience = ({
   profileUserId,
   fetchExperiencesStart,
-  isFetching,
+  isLoading,
   experiences
 }) => {
   useEffect(() => {
@@ -23,7 +23,7 @@ const ProfileExperience = ({
   return (
     <div className='profile-experience'>
       <h2 className='text-primary'>Experience</h2>
-      {isFetching ? (
+      {isLoading ? (
         <Spinner small />
       ) : (
         <div className='profile-experience_list'>
@@ -57,7 +57,7 @@ const ProfileExperience = ({
 };
 
 const mapStateToProps = createStructuredSelector({
-  isFetching: selectAreExperiencesFetching,
+  isLoading: selectAreExperiencesLoading,
   experiences: selectExperiences
 });
 

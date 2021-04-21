@@ -79,7 +79,6 @@ const EditProfile = ({
 
   const handleSubmit = e => {
     e.preventDefault();
-    // TODO: handle edit profile
     editProfileStart(formData);
   };
 

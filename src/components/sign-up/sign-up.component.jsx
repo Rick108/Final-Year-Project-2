@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
+import { setAlertStart } from '../../redux/alert/alert.actions';
 import { signUpStart } from '../../redux/user/user.actions';
 import CustomButton from '../custom-button/custom-button.component';
 import FormInput from '../form-input/form-input.component';
 import './sign-up.styles.scss';
 
-const SignUp = ({ signUpStart }) => {
+const SignUp = ({ signUpStart, setAlertStart }) => {
   const [formData, setFormData] = useState({
     displayName: '',
     email: '',
@@ -26,7 +27,7 @@ const SignUp = ({ signUpStart }) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match');
+      setAlertStart('danger', 'Passwords do not match', 3000);
       return;
     }
 
@@ -81,7 +82,9 @@ const SignUp = ({ signUpStart }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  signUpStart: userCredentials => dispatch(signUpStart(userCredentials))
+  signUpStart: userCredentials => dispatch(signUpStart(userCredentials)),
+  setAlertStart: (alertType, alertMsg, timeout) =>
+    dispatch(setAlertStart(alertType, alertMsg, timeout))
 });
 
 export default connect(null, mapDispatchToProps)(SignUp);

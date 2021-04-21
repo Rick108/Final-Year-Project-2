@@ -7,7 +7,7 @@ import {
   fetchEducationsStart
 } from '../../redux/education/education.actions';
 import {
-  selectAreEducationsFetching,
+  selectAreEducationsLoading,
   selectEducations
 } from '../../redux/education/education.selectors';
 import { selectCurrentUser } from '../../redux/user/user.selectors';
@@ -51,7 +51,7 @@ const Education = ({
                 </td>
                 <td>
                   <CustomButton onClick={() => deleteEducationStart(edu.id)} danger>
-                    Delete
+                    {loading ? <i className='fa fa-spinner fa-spin'></i> : 'Delete'}
                   </CustomButton>
                 </td>
               </tr>
@@ -66,7 +66,7 @@ const Education = ({
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   educations: selectEducations,
-  loading: selectAreEducationsFetching
+  loading: selectAreEducationsLoading
 });
 
 const mapDispatchToProps = dispatch => ({
